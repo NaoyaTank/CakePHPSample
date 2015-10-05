@@ -50,4 +50,8 @@ class User extends AppModel {
         }
         return true;
     }
+
+    public function isOwnedBy($parameter_user_id, $logined_user_id) {
+        return $parameter_user_id === $logined_user_id;
+    }
 }

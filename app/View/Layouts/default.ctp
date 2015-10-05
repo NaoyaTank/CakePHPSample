@@ -26,7 +26,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<div class='user-info'>
 				<?php
 					if ($auth->loggedIn()) {
-						echo $this->Html->link('Log out', array('controller' => 'users', 'action' => 'logout'));
+						echo $this->Html->link('Profile', array('controller' => 'users', 'action' => 'view', $auth->user('id')));
 					}
 				?>
 			</div>

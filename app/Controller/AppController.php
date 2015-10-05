@@ -3,6 +3,18 @@
 App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
+
+    public function beforeFilter() {
+        $this->set('auth', $this->Auth);
+    }
+
+    public function isAuthorized($user) {
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+        return false;
+    }
+
 	public $components = array(
         'Auth' => array(
             'loginRedirect' => array(
@@ -17,22 +29,9 @@ class AppController extends Controller {
                 'Form' => array(
                     'passwordHasher' => 'Blowfish'
                 )
-            )
+            ),
+            'authorize' => array('Controller')
         ),
         'Session'
     );
-
-    // public function isAuthorized($user) {
-	//     if (isset($user['role']) && $user['role'] === 'admin') {
-	//         return true;
-	//     }
-	//     // デフォルトは拒否
-	//     return false;
-	// }
-
-    public function beforeFilter() {
-        // viewでAuth使うとき、以下を入れるしかないのか？
-        $this->set('auth', $this->Auth);
-        // $this->Auth->allow('index', 'view');
-    }
 }
