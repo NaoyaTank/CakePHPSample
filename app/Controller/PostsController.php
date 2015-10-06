@@ -1,6 +1,9 @@
 <?php
 class PostsController extends AppController {
     public $helpers = array('Html', 'Form', 'Session');
+    public $paginate = array(
+    						'limit' => 10,
+    				   );
 
     public function beforeFilter() {
         // before login
@@ -25,12 +28,8 @@ class PostsController extends AppController {
 	}
 
     public function index() {
-        $this->set('posts', $this->Post->find('all'));
-//        debug($this->Post->find('all'));
-//        exit;
-
-
-//        debug($posts);
+//        $this->set('posts', $this->Post->find('all'));
+        $this->set('posts', $this->paginate());
     }
 
     public function add() {

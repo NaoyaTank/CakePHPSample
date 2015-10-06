@@ -23,4 +23,8 @@
             </div>
         </div>
     <?php endforeach; ?>
+
+    <?php echo $this->Paginator->prev('前へ' . __(''), array(), null, array('class' => 'prev disabled')); ?>
+    <?php echo $this->Paginator->counter(array( 'format' => __('{:page}/{:pages}ページを表示'))); ?>
+    <?php echo $this->Paginator->next(__('') . ' 次へ', array(), null, array('class' => 'next disabled')); ?>
 </div>
