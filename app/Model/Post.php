@@ -9,8 +9,15 @@ class Post extends AppModel {
 		);
 
     public $validate = array(
-        'body' => array(
-            'rule' => 'notEmpty'
-        )
-    );
+		'body' => array(
+            'rule1' => array(
+	            'rule' => array('notEmpty'),
+	            'message' => 'empty post is not accepted'
+	    	),
+	    	'rule2' => array(
+	    		'rule' => array('maxLength', 140),
+	    		'message' => 'Please enter less than 140 letters'
+	    	)
+	    )
+	);
 }

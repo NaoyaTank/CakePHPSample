@@ -1,14 +1,18 @@
 <?php
 class PostsController extends AppController {
     public $helpers = array('Html', 'Form', 'Session');
-    public $paginate = array(
-    						'limit' => 10,
-    				   );
+    public $paginate = array('limit' => 15);
+    public $components = array('Session');
 
     public function beforeFilter() {
         // before login
         parent::beforeFilter();
-        //$this->Auth->allow('index');
+        if($this->Session->read('errors')){
+        	foreach($this->Session->read('errors') as $model => $errors){
+                $this->Post->validationErrors = $errors;
+            }
+    	    $this->Session->delete('errors');
+        }
     }
 
 	public function isAuthorized($user) {
@@ -28,8 +32,11 @@ class PostsController extends AppController {
 	}
 
     public function index() {
-//        $this->set('posts', $this->Post->find('all'));
         $this->set('posts', $this->paginate());
+        if($this->Session->read('Message.Inbalid')){
+        	$this->request->data['Post']['body'] = $this->Session->read('Message.Inbalid');
+	       	$this->Session->delete('Message');
+        }
     }
 
     public function add() {
@@ -38,8 +45,11 @@ class PostsController extends AppController {
 	        if ($this->Post->save($this->request->data)) {
 	            $this->Session->setFlash('Your post has been saved.');
 	            $this->redirect(array('action' => 'index'));
-	        } else{
+	        } else {
+	        	$this->Session->write('errors.Comment',$this->Post->validationErrors);
+	        	$this->Session->write('Message.Inbalid', $this->request->data['Post']['body']);
 	            $this->Session->setFlash('posting was failed');
+	            $this->redirect(array('action' => 'index'));
 	        }
 	    }
 	}
@@ -48,7 +58,6 @@ class PostsController extends AppController {
     //     if (!$id) {
     //         throw new NotFoundException(__('Invalid post'));
     //     }
-
     //     $post = $this->Post->findById($id);
     //     if (!$post) {
     //         throw new NotFoundException(__('Invalid post'));
@@ -57,11 +66,10 @@ class PostsController extends AppController {
     // }
 
 
- //    public function edit($id = null) {
+    //    public function edit($id = null) {
 	//     if (!$id) {
 	//         throw new NotFoundException(__('Invalid post'));
 	//     }
-
 	//     $post = $this->Post->findById($id);
 	//     if (!$post) {
 	//         throw new NotFoundException(__('Invalid post'));
@@ -75,7 +83,6 @@ class PostsController extends AppController {
 	//         }
 	//         $this->session->setFlash('Unable to update your post.');
 	//     }
-
 	//     if (!$this->request->data) {
 	//         $this->request->data = $post;
 	//     }
@@ -85,7 +92,6 @@ class PostsController extends AppController {
 	//     if ($this->request->is('get')) {
 	//         throw new MethodNotAllowedException();
 	//     }
-
 	//     if ($this->Post->delete($id)) {
 	//         $this->session->setFlash('delete');
 	//     } else {
