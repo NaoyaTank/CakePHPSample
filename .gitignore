@@ -2,6 +2,11 @@
 #################################################
 /app/Config/database.php
 /app/tmp
+/app/webroot/favicon.ico
+/app/webroot/files/empty
+/app/webroot/js/empty
+/app/webroot/.htaccess
+
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors

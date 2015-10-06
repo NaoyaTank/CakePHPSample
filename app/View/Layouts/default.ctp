@@ -23,6 +23,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<div id="container">
 		<div id="header">
+			<?php echo $this->Html->link('Sample app looks like a Twitter', '/'); ?>
 			<div class='user-info'>
 				<?php
 					if ($auth->loggedIn()) {

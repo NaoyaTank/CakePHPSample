@@ -1,9 +1,9 @@
 <?php
 class UsersController extends AppController {
 
+    public $helpers = array('Html', 'Image');
     public function beforeFilter() {
         // before login
-        debug($this->Auth->user('id'));
         parent::beforeFilter();
         $this->Auth->allow('add', 'login');
     }
@@ -48,7 +48,18 @@ class UsersController extends AppController {
                 'password' => Set::extract($this->request->data, 'User.password'),
                 'role'     => 'author'
             );
+
+            $img = $this->request->data['User']['image'];
+
+            if ( $img['name'] ) {
+                $data['img_name'] = $this->User->get_img_name($id, $img['name']);
+            }
+
             if ($this->User->save($data)) {
+                if ( $img['name'] ) {
+                    $save_path = $this->User->get_img_path($data['img_name']);
+                    $this->User->save_img($img['tmp_name'], $save_path);
+                }
                 $this->Session->setFlash('You are signed up successfly!');
                 $this->Auth->login();
                 $this->redirect($this->Auth->redirect());
@@ -60,11 +71,28 @@ class UsersController extends AppController {
 
     public function edit($id = null) {
         $this->User->id = $id;
+        $this->User->recursive = -1;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
+            $data = array(
+                'email'    => Set::extract($this->request->data, 'User.email'),
+                'password' => Set::extract($this->request->data, 'User.password'),
+            );
+
+            $img = $this->request->data['User']['image'];
+
+            if ( $img['name'] ) {
+                $data['img_name'] = $this->User->get_img_name($id, $img['name']);
+            }
+
+            if ($this->User->save($data)) {
+                if ( $img['name'] ) {
+                    $save_path = $this->User->get_img_path($data['img_name']);
+                    $this->User->save_img($img['tmp_name'], $save_path);
+                }
                 $this->Session->setFlash('Your profile has been updated collectlly!');
                 $this->redirect(array('action' => 'view', $this->User->id));
             } else {
@@ -80,13 +108,9 @@ class UsersController extends AppController {
         if (!$this->User->exists($id)) {
             throw new NotFoundException(__('Invalid user'));
         }
+        $this->User->recursive = -1;
         $this->set('user', $this->User->findById($id));
     }
-
-    // public function index() {
-    //     $this->User->recursive = 0;
-    //     $this->set('users', $this->paginate());
-    // }
 
     public function delete($id = null) {
         $this->request->onlyAllow('post');
@@ -102,8 +126,4 @@ class UsersController extends AppController {
         $this->Flash->error(__('User was not deleted'));
         $this->redirect(array('action' => 'index'));
     }
-
-
-
-
 }

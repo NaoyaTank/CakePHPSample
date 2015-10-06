@@ -8,5 +8,5 @@
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
 
-Are you already sinned up? if you are not -> 
+Are you already signed up? if you are not ->
 <?php echo $this->Html->link('Sign Up', array('controller' => 'users', 'action' => 'add')); ?>

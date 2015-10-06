@@ -1,30 +1,26 @@
-<h1>Blog posts</h1>
-<p><?php echo $this->Html->link('Add Post', array('action' => 'add')); ?></p>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Actions</th>
-        <th>Created</th>
-    </tr>
+<h3>
+    <?php echo "Hello ", h($auth->user('username')), "!", " What are you doing now?" ?>
+</h3>
 
+<?php
+    echo $this->Form->create('Post', array('action' => 'add'));
+    echo $this->Form->input('body', array('rows' => '3', 'label' => false));
+    echo $this->Form->end('Post!');
+?>
+
+<div class="container">
     <?php foreach ($posts as $post): ?>
-    <tr>
-        <td><?php echo $post['Post']['id']; ?></td>
-        <td>
-            <?php echo $this->Html->link($post['Post']['title'], array('action' => 'view', $post['Post']['id']));?>
-        </td>
-        <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $post['Post']['id']),
-                array('confirm' => 'Are you sure?'));
-            ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $post['Post']['id'])); ?>
-        </td>
-        <td>
-            <?php echo $post['Post']['created']; ?>
-        </td>
-    </tr>
+        <div class='each-post'>
+            <div class='user-img'>
+                <?php echo $this->Html->image($this->Image->img_path($post['User']['img_name']), 
+                                                                     array('width'=>'36', 'height' => '36'))?>
+            </div>
+            <div class='post-msg'>                                                               
+                <?php echo h($post['Post']['body']), ' (', h($post['User']['username']), ')' ?>
+            </div>
+            <div class='post-time'>
+                <?php echo h($post['Post']['created']) ?>
+            </div>
+        </div>
     <?php endforeach; ?>
-</table>
+</div>

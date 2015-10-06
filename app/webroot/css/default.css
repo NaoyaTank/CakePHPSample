@@ -1,3 +1,21 @@
 .user-info {
 	float: right;
 }
+
+.post-time {
+	clear: left;
+}
+
+.each-post {
+	height: 80px;
+	clear: both;
+	border-top: solid;
+	border-width: 1px;
+}
+
+.user-img {
+	float: left;
+}
+.post-msg {
+	float: left;
+}
