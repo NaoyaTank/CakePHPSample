@@ -36,14 +36,13 @@ class PostsController extends AppController {
 
         if( $this->Session->read('Message.Inbalid') ){
         	$this->request->data['Post']['body'] = $this->Session->read('Message.Inbalid');
-	       	$this->Session->delete('Message');
         }
 
         if($this->Session->read('Message.Reply')){
         	$this->request->data['Post']['body'] = $this->Session->read('Message.Reply');
         	$this->request->data['Post']['reply_post_id'] = $this->Session->read('Message.ReplyId');
-	       	$this->Session->delete('Message');
         }
+   	    $this->Session->delete('Message');
     }
 
     public function add() {
