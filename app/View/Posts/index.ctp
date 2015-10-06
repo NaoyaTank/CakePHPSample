@@ -5,6 +5,7 @@
 <?php
     echo $this->Form->create('Post', array('action' => 'add'));
     echo $this->Form->input('body', array('rows' => '3', 'label' => false));
+    echo $this->Form->hidden('reply_post_id');
     echo $this->Form->end('Post!');
 ?>
 
@@ -20,6 +21,7 @@
             </div>
             <div class='post-time'>
                 <?php echo h($post['Post']['created']) ?>
+                <?php echo $this->Html->link('[Re]', array('action' => 'reply', $post['Post']['id'])); ?>
             </div>
         </div>
     <?php endforeach; ?>
