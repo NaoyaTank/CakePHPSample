@@ -25,6 +25,7 @@ class AppController extends Controller {
                 'controller' => 'users',
                 'action' => 'login',
             ),
+            'unauthorizedRedirect' => '/',
             'authenticate' => array(
                 'Form' => array(
                     'passwordHasher' => 'Blowfish'

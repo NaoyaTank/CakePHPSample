@@ -54,7 +54,12 @@ class User extends AppModel {
                 'message' => 'Please enter a valid role',
                 'allowEmpty' => false
             ),
-        )
+        ),
+        'image' => array(
+            'rule' => array('extension', array('gif', 'png', 'jpeg', 'jpg')),
+            'message' => 'invalid extentions',
+            'allowEmpty' => true,
+        ),
     );
 
     public function beforeSave($options = array()) {
