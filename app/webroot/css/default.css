@@ -19,3 +19,7 @@
 .post-msg {
 	float: left;
 }
+
+.delete-button {
+	float: right;
+}

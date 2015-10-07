@@ -18,8 +18,16 @@
         <td>
             <?php
                 echo $this->Html->link('Edit', array('action' => 'edit', $user['User']['id'])), '&nbsp', '&nbsp';
-	            echo $this->Html->link('Log out', array('controller' => 'users', 'action' => 'logout'));
+                echo $this->Html->link('Log out', array('controller' => 'users', 'action' => 'logout')), '&nbsp', '&nbsp';
             ?>
         </td>
     </tr>
 </table>
+
+<div class='delete-button'>
+    <?php echo $this->Form->postLink('Delete account',array(
+                                                            'action'=>'delete',
+                                                            $auth->user('id')),
+                                                            array(),'Are you sure to delete your account?');
+    ?>
+</div>
