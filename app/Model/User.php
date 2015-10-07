@@ -3,7 +3,11 @@ App::uses('AppModel', 'Model');
 App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 class User extends AppModel {
-    public $hasMany = array('Post');
+    public $hasMany = array(
+        'Post' => array(
+            'dependent' => true
+        )
+    );
 
     public $validate = array(
         'username' => array(
